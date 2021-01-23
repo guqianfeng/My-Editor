@@ -1,1 +1,4 @@
-console.log('Editor')
+import config from '../config'
+class Editor {
+  
+}
