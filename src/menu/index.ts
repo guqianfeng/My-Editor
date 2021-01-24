@@ -36,7 +36,8 @@ export default class Menus {
     /**
      * 子菜单处理
      */
-    if(['head', 'color'].includes(type)) {
+    const subMenuArr = subMenuDict[type];
+    if(subMenuArr && subMenuArr.length) {
       /**
        * head 有子菜单 h1-h6
        * color 有子菜单，可以选择颜色
@@ -45,7 +46,6 @@ export default class Menus {
       subMenu.className = 'editor-sub-menu';
       // 处理submenu菜单
       let subMenuStr = "";
-      const subMenuArr = subMenuDict[type];
       for (let i = 0; i < subMenuArr.length; i++) {
         if (type === 'color') {
           subMenuStr += `<div class="sub-menu-item" style="color: ${subMenuArr[i]} !important">${subMenuArr[i]}</div>`
@@ -61,7 +61,8 @@ export default class Menus {
   }
 
   addEvent (el: HTMLElement, type: string): void {
-    if(['head', 'color'].includes(type)) {
+    const subMenuArr = subMenuDict[type];
+    if(subMenuArr && subMenuArr.length) {
       const subMenuEl = el.querySelector('.editor-sub-menu') as HTMLElement;
       el.addEventListener('mouseover', () => {
         subMenuEl.style.display = 'block';
@@ -71,7 +72,7 @@ export default class Menus {
       })
       subMenuEl.addEventListener('click', function(e) {
         const target = e.target as HTMLElement;
-        // console.log(type, target.innerHTML);
+        console.log(type, target.innerHTML);
         this.style.display = 'none';
       })
     } else {
