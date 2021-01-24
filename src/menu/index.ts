@@ -45,8 +45,13 @@ export default class Menus {
       subMenu.className = 'editor-sub-menu';
       // 处理submenu菜单
       let subMenuStr = "";
-      for (let i = 0; i < 6; i++) {
-        subMenuStr += `<div class="sub-menu-item">${i}</div>`
+      const subMenuArr = subMenuDict[type];
+      for (let i = 0; i < subMenuArr.length; i++) {
+        if (type === 'color') {
+          subMenuStr += `<div class="sub-menu-item" style="color: ${subMenuArr[i]} !important">${subMenuArr[i]}</div>`
+        } else {
+          subMenuStr += `<div class="sub-menu-item">${subMenuArr[i]}</div>`
+        }
       }
       subMenu.innerHTML = subMenuStr;
       toolEl.appendChild(subMenu);
@@ -65,7 +70,8 @@ export default class Menus {
         subMenuEl.style.display = 'none';
       })
       subMenuEl.addEventListener('click', function(e) {
-        console.log(type, e.target);
+        const target = e.target as HTMLElement;
+        // console.log(type, target.innerHTML);
         this.style.display = 'none';
       })
     } else {
