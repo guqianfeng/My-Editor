@@ -20,9 +20,14 @@
       top: 40px;
       left: 0;
       width: 100px;
-      height: 200px;
       background-color: #fff;
       border: 1px solid black;
+      .sub-menu-item {
+        color: #000 !important;
+        &:hover {
+          background-color: skyblue;
+        }
+      }
     }
     &:hover {
       color: skyblue;

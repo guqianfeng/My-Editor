@@ -43,7 +43,12 @@ export default class Menus {
        */
       const subMenu = document.createElement('div');
       subMenu.className = 'editor-sub-menu';
-      console.log(subMenuDict)
+      // 处理submenu菜单
+      let subMenuStr = "";
+      for (let i = 0; i < 6; i++) {
+        subMenuStr += `<div class="sub-menu-item">${i}</div>`
+      }
+      subMenu.innerHTML = subMenuStr;
       toolEl.appendChild(subMenu);
     }
     this.editor.toolbarEl.appendChild(toolEl);
@@ -59,9 +64,13 @@ export default class Menus {
       el.addEventListener('mouseout', () => {
         subMenuEl.style.display = 'none';
       })
+      subMenuEl.addEventListener('click', function(e) {
+        console.log(type, e.target);
+        this.style.display = 'none';
+      })
     } else {
       el.addEventListener('click', () => {
-        console.log('加粗效果')
+        console.log('bold')
       })
     }
   }
