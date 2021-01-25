@@ -1,4 +1,7 @@
 import Editor from "../editor/Editor";
+import myCommand, {commandDict} from '../command'
+
+// console.log(myCommand, commandDict)
 
 const subMenuDict = {
   'head': [
@@ -72,12 +75,14 @@ export default class Menus {
       })
       subMenuEl.addEventListener('click', function(e) {
         const target = e.target as HTMLElement;
-        console.log(type, target.innerHTML);
         this.style.display = 'none';
+        console.log(type, target.innerHTML);
+        // myCommand(commandDict[type], target.innerHTML)
       })
     } else {
       el.addEventListener('click', () => {
-        console.log('bold')
+        console.log(type)
+        // myCommand(commandDict[type])
       })
     }
   }

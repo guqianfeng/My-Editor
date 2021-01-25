@@ -1,5 +1,7 @@
 import config, { ConfigType } from '../config'
 import Menus from '../menu'
+
+import './editor.scss'
 class Editor {
   public config: ConfigType
   public el: HTMLElement
