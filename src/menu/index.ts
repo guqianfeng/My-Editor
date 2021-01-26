@@ -64,11 +64,15 @@ export default class Menus {
   }
 
   addEvent (el: HTMLElement, type: string): void {
+    let selection = null;
+    let range = null;
     const subMenuArr = subMenuDict[type];
     if(subMenuArr && subMenuArr.length) {
       const subMenuEl = el.querySelector('.editor-sub-menu') as HTMLElement;
       el.addEventListener('mouseover', () => {
         subMenuEl.style.display = 'block';
+        selection = window.getSelection()
+        range = selection && selection.getRangeAt(0);
       })
       el.addEventListener('mouseout', () => {
         subMenuEl.style.display = 'none';
@@ -76,13 +80,25 @@ export default class Menus {
       subMenuEl.addEventListener('click', function(e) {
         const target = e.target as HTMLElement;
         this.style.display = 'none';
+        selection.removeAllRanges()
+        selection.addRange(range);
         console.log(type, target.innerHTML);
-        // myCommand(commandDict[type], target.innerHTML)
+        let value = target.innerHTML;
+        if (commandDict[type] === 'insertHTML') {
+          value = `<${value}>${selection.toString()}</${value}>`
+        }
+        myCommand(commandDict[type], value)
       })
     } else {
+      el.addEventListener('mouseover', () => {
+        selection = window.getSelection()
+        range = selection && selection.getRangeAt(0);
+      })
       el.addEventListener('click', () => {
+        selection.removeAllRanges()
+        selection.addRange(range);
         console.log(type)
-        // myCommand(commandDict[type])
+        myCommand(commandDict[type])
       })
     }
   }
