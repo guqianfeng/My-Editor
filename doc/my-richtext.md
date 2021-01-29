@@ -73,6 +73,14 @@
 
     ![](./images/demo.jpg)
 
+* **我又要来补充遇到的难点了**，咳咳，输入一行文字，选中个范围，刁钻的点下编辑器外部，在点击加粗，我的加粗呢！！
+* 所以在失去焦点的时候我们需要保存range，这样就能修复这个bug了，核心的写法如下
+    ```js
+    this.editor.textContainerEl.addEventListener('blur', () => {
+      range = document.getSelection().getRangeAt(0).cloneRange();
+    })
+    ```    
+
 ### 彩蛋
 
 * 其实有很多细节还没有处理好，后续有机会在慢慢完善
