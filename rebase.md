@@ -15,38 +15,95 @@
 
 ## 本地的多次提交合并为一个
 
+### 合并的原因
+
 先来说说为什么要把多次提交合并成一个，前面说到changelog变好看(美容术)又是什么鬼，这里给大家举个简单的例子，比方说我们有个新功能，名字就叫**test**，然后这个功能又有很多细节，比如有a，b，c三个细节，开发者可能会完成一个细节就会提交一下，于是乎，这个功能最终完成后，就有a,b,c三个提交记录，但实际上我们就是为了完成这个**test**功能吧，changelog就是给用户看我们实际更新了改了什么，三个细节合并成一个“新功能test”不香嘛，于是乎美容术的存在就有了意义
 
+### 开始练习
+
 开始搞起，先新建个项目，这里我取名为**git-compose-commit**，为了模拟场景，我们先做以下的操作
-* `git init`初始化
-* 新建一个**test.text**，提交一把`git add .`以及`git commit -m 'init'`
-* 在**test.text**里写上个a保存下，继续提交`git add .`以及`git commit -m 'add a'`
-* 在**test.text**里写上个b保存下，继续提交`git add .`以及`git commit -m 'add b'`
-* 在**test.text**里写上个c保存下，继续提交`git add .`以及`git commit -m 'add c'`
-* 此时我们就可以看看日志了，输入`git log --oneline`，来张截图给各位看官看下
+`git init`初始化
+新建一个**test.text**，提交一把`git add .`以及`git commit -m 'init'`
+在**test.text**里写上个a保存下，继续提交`git add .`以及`git commit -m 'add a'`
+在**test.text**里写上个b保存下，继续提交`git add .`以及`git commit -m 'add b'`
+在**test.text**里写上个c保存下，继续提交`git add .`以及`git commit -m 'add c'`
+此时我们就可以看看日志了，输入`git log --oneline`，来张截图给各位看官看下
 
-    ![](./images/ready-compose.jpg)
+![](./images/ready-compose.jpg)
 
-* 假设我们的test功能就完成了，我现在就要搞美容术了把abc合并在一起，这里我们要记住下`add a`的**上次提交记录的id**，在这里就是`157a7d4`, 为什么要记住这个，是因为我们的指令`git rebase -i xxx`，这里的xxx指的就是提交id，这样就可以把init后的提交记录做合并处理，然后-i就是些交互指令，废话不多说我们直接走起，`git rebase -i 157a7d4`来看下交互指令
+假设我们的test功能就完成了，我现在就要搞美容术了把abc合并在一起，这里我们要记住下`add a`的**上次提交记录的id**，在这里就是`157a7d4`, 为什么要记住这个，是因为我们的指令`git rebase -i xxx`，这里的xxx指的就是提交id，这样就可以把init后的提交记录做合并处理，然后-i就是些交互指令，废话不多说我们直接走起，`git rebase -i 157a7d4`来看下交互指令
 
-    ![](./images/rebase-i.jpg)
+![](./images/rebase-i.jpg)
 
-* 我们看到了提交记录abc，也看到了交互面板，其中s这里就已经说明了一切**use commit, but meld into previous commit**，使用commit，然后合并到上个commit，那我们只要把bc前面的pick指令改成s即可
+我们看到了提交记录abc，也看到了交互面板，其中s这里就已经说明了一切**use commit, but meld into previous commit**，使用commit，然后合并到上个commit，那我们只要把bc前面的pick指令改成s即可
 
-* XMD（兄弟们）,按下i开始编辑吧
+XMD（兄弟们）,按下i开始编辑吧
 
-    ![](./images/edit-mode.jpg)
+![](./images/edit-mode.jpg)
 
-* 在这里已经看到我把bc前面的模式改成s了之后该做什么，当然是保存啦~esc后`:wq`加回车
+在这里已经看到我把bc前面的模式改成s了之后该做什么，当然是保存啦~esc后`:wq`加回车
 
-    ![](./images/after-save.jpg)
+![](./images/after-save.jpg)
 
-* 因为是合并操作，所以我们可以写个总结的commit信息，对了#开头的都代表是注释，所以随意删，同样的操作`i`插入，写完commit消息后esc，然后`:wq`回车保存退出
+在这之后又弹出了另外个交互界面，如上图所示，因为是合并操作，所以我们可以写个总结的commit信息，对了#开头的都代表是注释，所以随意删，同样的操作`i`插入，写完commit消息后esc，然后`:wq`回车保存退出
 
-* 此时在看下我们的`git log --oneline`
+此时在看下我们的`git log --oneline`
 
-    ![](./images/compose-success.jpg)
+![](./images/compose-success.jpg)
 
-* 酷不酷想不想学，abc就变成了一条记录啦~XDM觉得美容术可以的话记得自己也要练一下哦~   
+酷不酷想不想学，abc就变成了一条记录**feature test complete**啦~XDM觉得美容术可以的话记得自己也要练一下哦~   
+
+### 需要注意的细节
+
+如果有冲突的话，记得修改然后`git add .`和`git rebase --continue`
+
+如果想放弃rebase的操作，直接`git rebase --abort`,回到rebase操作之前的状态，之前的提交的不会丢弃
 
 ## 改变基线大法
+
+### 先来看看大佬怎么说
+
+萌新猪(我)：要说rebase的优势是什么，这里就不得不提merge，要想对比出其中的区别，那必然是搞2个一样的环境， 用不一样的合并方式合并代码，才能看出区别，先来张大佬的图，不知道大家在面向百度，面向各种技术大佬的技术贴是否和我一样，看貌似都懂了，但不敲就是领悟不到奥义
+
+![](./images/MergeVsRebase.jpg)
+
+该大佬是这么说的
+> Git无疑现在已经成为最流行的代码管理工具之一。其中有两个命令，对很多程序员造成了很多的困惑，一个是merge，一个是rebase。
+这些困惑主要纠结于到底应该用merge还是用rebase。
+在继续深入探讨之前，我先抛出我的观点。如果你想拥有一套稳定的，健壮的代码, 永远要使用rebase。
+不为别的，就为了rebase可以给你提供一套清晰的代码历史。
+相反的, merge会给你一套乱七八糟的代码历史。当你看到这样的代码历史的时候，我相信你绝对没有心情去研究每一个历史对应的代码。
+
+### 我们开始搭初始环境吧（注意分别演示merge和rebase，初始环境一致）
+
+环境大致是这样的，master分支commit这么2条记录a和b，此时基于master分支拉个feature分支，feature此时的记录应该和master一致也是a和b，(这不是废话吗，我们就是基于master开的分支)，然后我们在feature提交2个记录d和e，那此刻的feature的分支应该就是a，b，d，e(猪猪萌新求你别再说废话了，那不行我还是要在说一会的),这个时候我们就要模拟个场景了，我们切回master分支，在提交个记录c，此刻的master分支就应该是a,b,c(虽然是废话，但还是想给大家捋清楚)，那么现在我们的master分支和feature分支应该分别是这样的
+
+- master - a,b,c
+- feature - a,b,d,e
+
+再来张图给大家看看，这就是我们的初始环境，为了演示清楚，我这边分别建了个2个项目，一个是`git-merge-demo`，一个是`git-rebase-demo`，XDM，这2个项目的初始环境就和上述保持一致哦~
+
+![](./images/init-env.jpg)
+
+这里注意了，时间顺序，我们是先在feature上添加了d和e的记录，然后在master上在加了c的记录，在来张图给大家加深印象
+
+![](./images/init-env-processon.jpg)
+
+### merge项目~merge开始
+
+`git merge xxx`是什么意思，大家都知道，不就是把xxx合并到当前分支嘛，所以我们这边切回master分支`git checkout master`，在执行` git merge feature-test`, 这样就把我们feature的内容合并进master了，此时我们在看下log, `git log --oneline`
+
+![](./images/merge-result.jpg)
+
+我们不仅发现提交记录按照实际的时间排序(abdec)，而且还多了条merge的提交记录我们先把这个称为f记录吧，所以merge后的两个分支的记录分别是
+
+- master - abdecf
+- feature - abde
+
+### rebase项目~rebase开始
+
+
+
+
+
+
