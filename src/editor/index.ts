@@ -23,14 +23,14 @@ class Editor {
   }
 
   initDom (): void {
-    this.initMenus();
     this.initEditArea();
+    this.initMenus();
   }
 
   initMenus (): void {
     this.toolbarEl = document.createElement('div');
     this.toolbarEl.className = 'toolbar';
-    this.el.appendChild(this.toolbarEl)
+    this.el.insertBefore(this.toolbarEl, this.textContainerEl);
     const menus = new Menus(this);
     // console.log(menus)
     menus.addMenus()

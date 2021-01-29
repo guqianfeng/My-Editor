@@ -72,7 +72,9 @@ export default class Menus {
       el.addEventListener('mouseover', () => {
         subMenuEl.style.display = 'block';
         selection = window.getSelection()
-        range = selection && selection.getRangeAt(0);
+        if (!range) {
+          range = selection && selection.getRangeAt(0);
+        }
       })
       el.addEventListener('mouseout', () => {
         subMenuEl.style.display = 'none';
@@ -92,7 +94,9 @@ export default class Menus {
     } else {
       el.addEventListener('mouseover', () => {
         selection = window.getSelection()
-        range = selection && selection.getRangeAt(0);
+        if (!range) {
+          range = selection && selection.getRangeAt(0);
+        }
       })
       el.addEventListener('click', () => {
         selection.removeAllRanges()
@@ -101,5 +105,10 @@ export default class Menus {
         myCommand(commandDict[type])
       })
     }
+
+    this.editor.textContainerEl.addEventListener('blur', () => {
+      // console.log('blur')
+      range = document.getSelection().getRangeAt(0).cloneRange();
+    })
   }
 }
