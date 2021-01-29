@@ -10,8 +10,8 @@
 
 ## git rebase主要练习
 
-* 美容术~让changelog变的更好看(本地的多次提交合并为一个~)
-* 保持整个分支树的完美线性(改变基线, abcdef不香嘛，对比merge案例~)
+* 美容术，让changelog变的更好看(本地的多次提交合并为一个)
+* 保持整个分支树的完美线性(改变基线, abcdef不香嘛，对比merge案例)
 
 ## 本地的多次提交合并为一个
 
@@ -89,7 +89,7 @@ XMD（兄弟们）,按下i开始编辑吧
 
 ![](./images/init-env-processon.jpg)
 
-### merge项目~merge开始
+### merge项目 -> merge开始
 
 `git merge xxx`是什么意思，大家都知道，不就是把xxx合并到当前分支嘛，所以我们这边切回master分支`git checkout master`，在执行` git merge feature-test`（feature-test分支合进master分支）, 这样就把我们feature的内容合并进master了，此时我们在看下log, `git log --oneline`
 
@@ -103,7 +103,7 @@ XMD（兄弟们）,按下i开始编辑吧
 对了，同样要注意细节，如果有冲突，参考之前的**需要注意的细节**
 分析到这里，xdm，流程图应该可以自己整理了吧~接下来我们说说rebase（同样的套路，分析完，让xdm动手自己画图巩固学习~）
 
-### rebase项目~rebase开始
+### rebase项目 -> rebase开始
 
 和merge项目一样，初始的环境还是一样的搭
 现在的场景相当于，我们在feature一直开发，已经开发了d和e的功能，但master其实也往前进了，更新了c功能，此时我们就可以检出 feature-test 分支，然后将它变基到 master 分支，记住我们是在feature分支，输入rebase指令`git rebase master`，进行变基操作
@@ -113,7 +113,7 @@ XMD（兄弟们）,按下i开始编辑吧
 
 ![](./images/after-rebase.jpg)
 
-我勒个去，果然可以啊，feature的提交记录就变成了abcde了，可以的~
+我勒个去，果然可以啊，feature的提交记录就变成了abcde了，可以的
 再然后我们就切回master，在执行合并操作，把feature-test合进master
 
 ![](./images/rebase-result.jpg)
