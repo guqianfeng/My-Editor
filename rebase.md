@@ -76,7 +76,7 @@ XMD（兄弟们）,按下i开始编辑吧
 
 ### 我们开始搭初始环境吧（注意分别演示merge和rebase，初始环境一致）
 
-环境大致是这样的，master分支commit这么2条记录a和b，此时基于master分支拉个feature分支，feature此时的记录应该和master一致也是a和b，(这不是废话吗，我们就是基于master开的分支)，然后我们在feature提交2个记录d和e，那此刻的feature的分支应该就是a，b，d，e(猪猪萌新求你别再说废话了，那不行我还是要在说一会的),这个时候我们就要模拟个场景了，我们切回master分支，在提交个记录c，此刻的master分支就应该是a,b,c(虽然是废话，但还是想给大家捋清楚)，那么现在我们的master分支和feature分支应该分别是这样的
+环境大致是这样的，master分支commit这么2条记录a和b，此时基于master分支拉个feature分支，feature此时的记录应该和master一致也是a和b，(这不是废话吗，我们就是基于master开的分支)，然后我们在feature提交2个记录d和e，那此刻的feature的分支应该就是a，b，d，e(猪猪萌新,求你别再说废话了，那不行我还是要在说一会的),这个时候我们就要模拟个场景了，我们切回master分支，在提交个记录c，此刻的master分支就应该是a,b,c(虽然是废话，但还是想给大家捋清楚)，那么现在我们的master分支和feature分支应该分别是这样的
 
 - master - a,b,c
 - feature - a,b,d,e
@@ -85,22 +85,51 @@ XMD（兄弟们）,按下i开始编辑吧
 
 ![](./images/init-env.jpg)
 
-这里注意了，时间顺序，我们是先在feature上添加了d和e的记录，然后在master上在加了c的记录，在来张图给大家加深印象
+这里注意了，时间顺序，我们是先在feature上添加了d和e的记录，然后在master上在加了c的记录，在来张初始环境图给大家加深印象
 
 ![](./images/init-env-processon.jpg)
 
 ### merge项目~merge开始
 
-`git merge xxx`是什么意思，大家都知道，不就是把xxx合并到当前分支嘛，所以我们这边切回master分支`git checkout master`，在执行` git merge feature-test`, 这样就把我们feature的内容合并进master了，此时我们在看下log, `git log --oneline`
+`git merge xxx`是什么意思，大家都知道，不就是把xxx合并到当前分支嘛，所以我们这边切回master分支`git checkout master`，在执行` git merge feature-test`（feature-test分支合进master分支）, 这样就把我们feature的内容合并进master了，此时我们在看下log, `git log --oneline`
 
 ![](./images/merge-result.jpg)
 
 我们不仅发现提交记录按照实际的时间排序(abdec)，而且还多了条merge的提交记录我们先把这个称为f记录吧，所以merge后的两个分支的记录分别是
 
-- master - abdecf
-- feature - abde
+- master - abdecf （f就是多出来的merge的那条记录，而且不成线性，看的难受）
+- feature-test - abde
+
+对了，同样要注意细节，如果有冲突，参考之前的**需要注意的细节**
+分析到这里，xdm，流程图应该可以自己整理了吧~接下来我们说说rebase（同样的套路，分析完，让xdm动手自己画图巩固学习~）
 
 ### rebase项目~rebase开始
+
+和merge项目一样，初始的环境还是一样的搭
+现在的场景相当于，我们在feature一直开发，已经开发了d和e的功能，但master其实也往前进了，更新了c功能，此时我们就可以检出 feature-test 分支，然后将它变基到 master 分支，记住我们是在feature分支，输入rebase指令`git rebase master`，进行变基操作
+
+这里先讲下原理，它的原理是首先找到这两个分支（即当前分支 feature-test、变基操作的目标基底分支 master） 的最近共同祖先 b（我们不是master在**add a**和**add b**之后拉了feature分支嘛，那b就是我们的最近共同祖先），然后对比当前分支相对于该祖先的历次提交，提取相应的修改并存为临时文件（d，e就变成了临时文件，d'和e'就是快照）， 然后将当前分支指向目标基底 c（master后续不是前进有个c提交的记录嘛）, 最后以此将之前另存为临时文件的修改依序应用。（d'和e'就到了c后面，于是最终就是abcde了）
+然后我们看到的结果就是这样 
+
+![](./images/after-rebase.jpg)
+
+我勒个去，果然可以啊，feature的提交记录就变成了abcde了，可以的~
+再然后我们就切回master，在执行合并操作，把feature-test合进master
+
+![](./images/rebase-result.jpg)
+
+此时我们的最终记录就是这样的
+
+- master - abcde (没有f而且线性abcde真香)
+- feature-test - abcde
+
+对了，同样要注意细节，如果有冲突，参考之前的**需要注意的细节**
+
+## 参考文献
+
+[git merge和git rebase的区别, 切记：永远用rebase](https://zhuanlan.zhihu.com/p/75499871)
+[Git-分支-变基](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%8F%98%E5%9F%BA)
+
 
 
 
