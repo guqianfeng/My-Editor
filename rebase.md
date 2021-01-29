@@ -128,8 +128,8 @@ XMD（兄弟们）,按下i开始编辑吧
 
 ## 参考文献
 
-[git merge和git rebase的区别, 切记：永远用rebase](https://zhuanlan.zhihu.com/p/75499871)
-[Git-分支-变基](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%8F%98%E5%9F%BA)
+* [git merge和git rebase的区别, 切记：永远用rebase](https://zhuanlan.zhihu.com/p/75499871)
+* [Git-分支-变基](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%8F%98%E5%9F%BA)
 
 
 
