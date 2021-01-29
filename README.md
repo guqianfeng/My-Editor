@@ -18,4 +18,5 @@
 # 掘金文章记录
 
 * [从零开始写的简单富文本(webpack + ts)](https://juejin.cn/post/6922632877805043725)
-* [git rebase学习心路旅程](https://juejin.cn/post/6923061094546145294)
+* [如何利用github进行多人协作开发](https://juejin.cn/post/6923113995628969998/#heading-0)
+
