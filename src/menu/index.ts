@@ -1,4 +1,4 @@
-import Editor from "../editor/Editor";
+import Editor from "../editor";
 import myCommand, {commandDict} from '../command'
 
 // console.log(myCommand, commandDict)

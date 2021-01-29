@@ -9,6 +9,9 @@ export default function myCommand (type: string, value?: any): boolean {
   return document.execCommand(type, false, value);
 }
 
+/**
+ * 根据菜单key找到对应的commandName
+ */
 export const commandDict =  {
   'bold': 'bold',
   'head': 'insertHTML',
