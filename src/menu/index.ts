@@ -73,7 +73,7 @@ export default class Menus {
         subMenuEl.style.display = 'block';
         selection = window.getSelection()
         if (!range) {
-          range = selection && selection.getRangeAt(0);
+          range = selection && selection.rangeCount && selection.getRangeAt(0);
         }
       })
       el.addEventListener('mouseout', () => {
@@ -83,7 +83,7 @@ export default class Menus {
         const target = e.target as HTMLElement;
         this.style.display = 'none';
         selection.removeAllRanges()
-        selection.addRange(range);
+        range && selection.addRange(range);
         console.log(type, target.innerHTML);
         let value = target.innerHTML;
         if (commandDict[type] === 'insertHTML') {
@@ -95,20 +95,20 @@ export default class Menus {
       el.addEventListener('mouseover', () => {
         selection = window.getSelection()
         if (!range) {
-          range = selection && selection.getRangeAt(0);
+          range = selection && selection.rangeCount && selection.getRangeAt(0);
         }
       })
       el.addEventListener('click', () => {
         selection.removeAllRanges()
-        selection.addRange(range);
+        range && selection.addRange(range);
         console.log(type)
         myCommand(commandDict[type])
       })
     }
 
-    this.editor.textContainerEl.addEventListener('blur', () => {
-      // console.log('blur')
+    this.editor.textContainerEl.onblur = () => {
+      console.log('blur')
       range = document.getSelection().getRangeAt(0).cloneRange();
-    })
+    }
   }
 }
